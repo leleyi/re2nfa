@@ -1,15 +1,15 @@
 import org.junit.Test;
 
-public class TestNfa{
+public class TestNfa {
 
     /**
      * variant 6  \, ^, ., $, *, +, [ ], [^ ], { }.
      * [] [^] . * + , ^         \ {} $
-     *
      */
     public static void main(String[] args) {
 
     }
+
     /**
      * \\*
      *
@@ -150,9 +150,14 @@ public class TestNfa{
      */
     @org.junit.Test
     public void test_email() throws Exception {
-        Re re1 = new Re("[1-9]*@[a-z]*.com]");
-        re1.matchAll("aaa653574281@qq.com12413241");
-//        Re re2 = new Re("18[0-9]{9}");
-//        re2.match("18190948520");
+        Re re1 = new Re("[1-9]*@[a-z]*.com");
+        re1.matchAll("feijiqq653574281@qq.com12413241");
+    }
+
+    @org.junit.Test
+    public void test_part() throws Exception {
+        Re re1 = new Re("[1-9]*@[a-z]*.com");
+        String s = re1.matchAll("feijiqq653574281@qq.com12413241");
+        assert "653574281@qq.com".equals(s);
     }
 }

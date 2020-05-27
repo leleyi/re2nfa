@@ -115,29 +115,22 @@ public class Re {
     }
 
     String matchAll(String str) {
-
-        Set<Nfa> next = new HashSet<>();
-        next.add(start);
-        e_closure(next);
-        Set<Nfa> current;
-
-        StringBuilder inputStr = new StringBuilder();
-        char ch;
         for (int i = 0; i < str.length(); i++) {
-            current = move(next, (ch = str.charAt(i)));
-            next = e_closure(current);
-            if (next == null) {
-                continue;
+            String res = match(str.substring(i, str.length()));
+            if (!"".equals(res)) {
+                return res;
             }
-            inputStr.append(ch);
         }
-
-        System.out.println("The Nfa Machine can recognize string: " + inputStr);
-        return inputStr.toString();
+        return "";
     }
 
     String sub(String from, String to) {
         return from.replaceAll(match(from), to);
+    }
+
+    void printNfa() {
+        NfaPrinter printer = new NfaPrinter();
+        printer.printNfa(start);
     }
 
     private boolean hasAcceptState(Set<Nfa> input) {
