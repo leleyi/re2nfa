@@ -48,3 +48,16 @@ The regular expression can be executed by constructing an equivalent NFA and the
 - From regular expression to NFA
 
   We use the Thompson algorithm to convert regular expressions to NFA. It is not the most efficient algorithm, but it is practical and easy to understand.
+
+
+####  solution architecture.
+- 1.the Lexer wrapper  the regular make it easier to handle
+- 2.Nfa is the Data Structure of nfa
+- 3.ErrorHandler deal the error in the project 
+    -  NfaInterpretor to get the graph of nfa. 
+- 4.NfaManager to manager the nfa node, include set node num ...
+- 5.NfaMachineConstructor use to construct the nfa of the regular expression. 
+- 6.Re deal the nfa. include the method match and sub; 
+- 7.Test do the unit Test of the regular expression engine
+
+you can see the test in the file "Test" 

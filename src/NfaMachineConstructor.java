@@ -2,7 +2,7 @@ import java.util.Set;
 
 public class NfaMachineConstructor {
     /**
-     * nfa 的开头和结尾
+     * nfa start and end;
      */
     public static class NfaPair {
         public Nfa startNode;
@@ -25,10 +25,9 @@ public class NfaMachineConstructor {
 
     public void expr(NfaPair pairOut) throws Exception {
         /*
-         * expr 由一个或多个complie 之间进行 OR 形成
-         * 如果表达式只有一个complie 那么expr 就等价于complie
-         * 如果表达式由多个complie做或连接构成那么 expr-> complie | complie | ....
-         * 由此得到expr的语法描述为:
+         * expr construct with one or more complie .
+         * if the expression just have on complie ,then the expr = complie
+         * expr-> complie | complie | ....
          * expr -> expr OR complie
          *         | complie
          *
@@ -57,7 +56,6 @@ public class NfaMachineConstructor {
     public void complie(NfaPair pairOut) throws Exception {
         /*
          * complie -> factor factor .....
-         * 由于多个factor 前后结合就是一个complie所以
          * complie-> factor complie
          */
         // if it can be cat
@@ -84,7 +82,7 @@ public class NfaMachineConstructor {
 
     private boolean first_in_cat(Lexer.Token tok) throws Exception {
         switch (tok) {
-            //正确的表达式不会以 ) $ 开头,如果遇到EOS表示正则表达式解析完毕，那么就不应该执行该函数
+            // the expressiong can not start with ) , $ ..
             case CLOSE_PAREN:
             case AT_EOL:
             case OR:
@@ -93,24 +91,23 @@ public class NfaMachineConstructor {
             case CLOSURE:
             case PLUS_CLOSE:
             case OPTIONAL:
-                //*, +, ? 这几个符号应该放在表达式的末尾
+                //*, +, ? these  mark should be in the end
                 ErrorHandler.parseErr(ErrorHandler.Error.E_CLOSE);
                 return false;
             case CCL_END:
-                //表达式不应该以]开头
+                // the expression can not start with ]
                 ErrorHandler.parseErr(ErrorHandler.Error.E_BRACKET);
                 return false;
             case AT_BOL:
-                //^必须在表达式的最开始/
+                //  ^ have to in the start of the expression
                 ErrorHandler.parseErr(ErrorHandler.Error.E_BOL);
-
                 return false;
         }
         return true;
     }
 
     /**
-     * 以闭包为最小单位
+     * closer min
      *
      * @param pairOut
      * @throws Exception
@@ -477,7 +474,7 @@ public class NfaMachineConstructor {
                 first = lexer.getLexeme();
                 set.add((byte) first);
             } else {
-                lexer.advance(); //越过 -
+                lexer.advance(); // advance()
                 for (; first <= lexer.getLexeme(); first++) {
                     set.add((byte) first);
                 }

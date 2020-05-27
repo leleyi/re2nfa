@@ -7,22 +7,22 @@ public class Lexer {
      * variant 6  \, ^, ., $, *, +, [ ], [^ ], { }.
      */
     public enum Token {
-        //正则表达式末尾
+        // the end of regular expression
         EOS,
-        // . 通配符
+        // . any
         ANY,
 
-        //^ 开头匹配符
+        //^ start
         AT_BOL,
 
-        //$ 末尾匹配符
+        //$ end
         AT_EOL,
 
-        //字符集类结尾括号 ]
+        //]
         CCL_END,
         // -
         DASH,
-        //字符集类开始括号 [
+        //[
         CCL_START,
 
         // {
@@ -35,14 +35,14 @@ public class Lexer {
         //)
         CLOSE_PAREN,
 
-        // * 零次或多次
+        // * 0 or +
         CLOSURE,
-        // + 一次或多次
+        // + 1 or 1+
         PLUS_CLOSE,
-        // ? 零次或一次
+        // ? 0 or 1
         OPTIONAL,
 
-        //字符常量
+        // cll
         L,
         // |
         OR,
@@ -58,13 +58,11 @@ public class Lexer {
     private int exprCount = 0;
     private String curExpr = "";
     private int charIndex = 0;
-    public int getCharIndex(){
+
+    public int getCharIndex() {
         return charIndex;
     }
 
-    /**
-     * 是否读取到转意符号
-     */
     private boolean sawEsc = false;
 
     private int lexeme;
@@ -243,29 +241,4 @@ public class Lexer {
         charIndex++;
         return rval;
     }
-
-//    private int hex2Bin(char c) {
-//        /*
-//         * 将十六进制数对应的字符转换为对应的数值，例如
-//         * A 转换为10， B转换为11
-//         * 字符c 必须满足十六进制字符： 0123456789ABCDEF
-//         */
-//        return (Character.isDigit(c) ? (c) - '0' : (Character.toUpperCase(c) - 'A' + 10)) & 0xf;
-//    }
-//
-//    private int oct2Bin(char c) {
-//        /*
-//         * 将字符c 转换为对应的八进制数
-//         * 字符c 必须是合法的八进制字符: 01234567
-//         */
-//        return ((c) - '0') & 0x7;
-//    }
-//
-//    private boolean isHexDigit(char c) {
-//        return (Character.isDigit(c) || ('a' <= c && c <= 'f') || ('A' <= c && c <= 'F'));
-//    }
-//
-//    private boolean isOctDigit(char c) {
-//        return ('0' <= c && c <= '7');
-//    }
 }

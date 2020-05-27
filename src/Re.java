@@ -1,20 +1,32 @@
+import java.sql.PreparedStatement;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import java.util.Stack;
 
 
-public class NfaIntepretor {
+public class Re {
     private Nfa start;
-    private String str;
 
-    public NfaIntepretor(Nfa start, String string) {
-        this.start = start;
-        this.str = string;
+    private Lexer lexer;
+    private NfaMachineConstructor constructor;
+    private NfaMachineConstructor.NfaPair pair = new NfaMachineConstructor.NfaPair();
+
+    Re(String regluar) {
+        lexer = new Lexer(regluar);
+        start = new Nfa();
+        try {
+            constructor = new NfaMachineConstructor(lexer);
+            constructor.complie(pair);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        start = pair.startNode;
     }
 
 
     private Set<Nfa> e_closure(Set<Nfa> input) {
+
         /*
          * Get the e closure corresponding to the nfa node in the input collection\
          * and add closure to the input
@@ -81,11 +93,10 @@ public class NfaIntepretor {
         return outSet;
     }
 
-    String match() {
-        Set<Nfa> next = new HashSet<Nfa>();
+    String match(String str) {
+        Set<Nfa> next = new HashSet<>();
         next.add(start);
         e_closure(next);
-
         Set<Nfa> current;
 
         StringBuilder inputStr = new StringBuilder();
@@ -103,8 +114,30 @@ public class NfaIntepretor {
         return inputStr.toString();
     }
 
-    String sub(String to) {
-        return str.replaceAll(match(), to);
+    String matchAll(String str) {
+
+        Set<Nfa> next = new HashSet<>();
+        next.add(start);
+        e_closure(next);
+        Set<Nfa> current;
+
+        StringBuilder inputStr = new StringBuilder();
+        char ch;
+        for (int i = 0; i < str.length(); i++) {
+            current = move(next, (ch = str.charAt(i)));
+            next = e_closure(current);
+            if (next == null) {
+                continue;
+            }
+            inputStr.append(ch);
+        }
+
+        System.out.println("The Nfa Machine can recognize string: " + inputStr);
+        return inputStr.toString();
+    }
+
+    String sub(String from, String to) {
+        return from.replaceAll(match(from), to);
     }
 
     private boolean hasAcceptState(Set<Nfa> input) {

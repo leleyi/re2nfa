@@ -4,7 +4,7 @@ import java.util.Stack;
 public class NfaManager {
 
 	/**
-	 *最多运行分配256个NFA节点
+	 * most have 256 node
 	 */
     private final int NFA_MAX = 256;
 
@@ -13,13 +13,13 @@ public class NfaManager {
     private Stack<Nfa> nfaStack = null;
 
 	/**
-	 *nfa数组下标
+	 *nfa index
 	 */
     private int nextAlloc = 0;
 
 
 	/**
-	 *分配的nfa编号
+	 * nfa number
 	 */
 	private int nfaStates = 0;
     

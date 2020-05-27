@@ -11,20 +11,17 @@ public class Nfa {
         BOTH
     }
 
-    //边对应的是ε
+    //this is ε
     public static final int EPSILON = -1;
-    //边对应的是字符集
+    // the is cll
     public static final int CCL = -2;
-    //该节点没有出去的边
+    // the node have not out edge
     public static final int EMPTY = -3;
-
-    //边对应 有数量的{}
-    public static final int BOUND = -4;
 
 
     private static final int ASCII_COUNT = 127;
 
-    //记录转换边对应的输入，输入可以是空, ε，字符集(CCL),或空，也就是没有出去的边
+    // record the edge type, null or ε or cll
     private int edge;
 
     public int getEdge() {
@@ -34,25 +31,23 @@ public class Nfa {
     public void setEdge(int type) {
         edge = type;
     }
-//    public void setConstrain(int min, int max){
-//        edge = this.BOUND;
-//    }
 
-    //用来存储字符集类
+    // save the char set
     public Set<Byte> inputSet;
 
-    //跳转的下一个状态，可以是空
+    // to next state can be null
     public Nfa next;
-    //跳转的另一个状态，当状态含有两条ε边时，这个指针才有效
+
+    //to the other state
     public Nfa next2;
 
-    //对应的正则表达式是否开头含有^, 或结尾含有$,  或两种情况都有
+    // if start with ^ or end with $ or both
     private ANCHOR anchor;
 
-    //节点编号
+    // num of node
     private int stateNum;
 
-    //节点是否被访问过，用于节点打印
+    // node if visit
     private boolean visited = false;
 
     public void setVisited() {

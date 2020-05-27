@@ -1,28 +1,21 @@
 
 public class ErrorHandler {
     public enum Error {
-        //内存不足
+        //memory not enough
         E_MEM,
-        //正则表达式错误
+        // the expression is error
         E_BADEXPR,
-        //括号不匹配
+        // [] not match
         E_PAREN,
-        //要解析的正则表达式过多
+        //to long
         E_LENGTH,
-        //字符集类没有以 [ 开头
+        //not start with [ 开头
         E_BRACKET,
-        //^必须在表达式的开头
+        //^ not in the start of expression
         E_BOL,
-        //* ? + 后面必须跟着表达式
+        //* ? + the end of current expression
         E_CLOSE,
-        //双引号中不能保护换行符
         E_NEWLINE,
-        //没有匹配的 }
-        E_BADMAC,
-        //给定的宏表达式不存在
-        E_NOMAC,
-        //宏表达式的间套太深
-        E_MACDEPTH
     }
 
     private static String[] errMsgs = new String[]{
