@@ -151,7 +151,8 @@ public class TestNfa {
     @org.junit.Test
     public void test_email() throws Exception {
         Re re1 = new Re("[1-9]*@[a-z]*.com");
-        re1.matchAll("feijiqq653574281@qq.com12413241");
+        String s = re1.matchAll("feijiqq653574281@qq.com12413241");
+        assert "653574281@qq.com".equals(s);
     }
 
     @org.junit.Test
