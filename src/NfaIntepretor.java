@@ -81,6 +81,7 @@ public class NfaIntepretor {
         return outSet;
     }
 
+
     String match() {
         Set<Nfa> next = new HashSet<Nfa>();
         next.add(start);

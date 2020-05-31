@@ -18,6 +18,7 @@ public class Nfa {
     // the node have not out edge
     public static final int EMPTY = -3;
 
+    public int st = 0;
 
     private static final int ASCII_COUNT = 127;
 

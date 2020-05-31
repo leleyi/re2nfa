@@ -22,6 +22,9 @@ public class Re {
             e.printStackTrace();
         }
         start = pair.startNode;
+        if (pair.start == 1) {
+            start.st = 1;
+        }
     }
 
 
@@ -31,7 +34,7 @@ public class Re {
          * Get the e closure corresponding to the nfa node in the input collection\
          * and add closure to the input
          */
-        System.out.print("ε-Closure( " + strFromNfaSet(input) + " ) = ");
+//        System.out.print("ε-Closure( " + strFromNfaSet(input) + " ) = ");
 
         Stack<Nfa> nfaStack = new Stack<Nfa>();
         if (input.isEmpty()) {
@@ -60,7 +63,7 @@ public class Re {
                 }
             }
         }
-        System.out.println("{ " + strFromNfaSet(input) + " }");
+//        System.out.println("{ " + strFromNfaSet(input) + " }");
         return input;
     }
 
@@ -87,13 +90,24 @@ public class Re {
             }
         }
         if (!outSet.isEmpty()) {
-            System.out.print("move({ " + strFromNfaSet(input) + " }, '" + c + "')= ");
-            System.out.println("{ " + strFromNfaSet(outSet) + " }");
+//            System.out.print("move({ " + strFromNfaSet(input) + " }, '" + c + "')= ");
+//            System.out.println("{ " + strFromNfaSet(outSet) + " }");
         }
         return outSet;
     }
 
     String match(String str) {
+        if (start.st == 1) {
+            return matchAll(str);
+        } else {
+            return match0(str);
+        }
+    }
+
+    String match0(String str) {
+//        if (start.st == 1) {
+//            matchAll(str);
+//        }
         Set<Nfa> next = new HashSet<>();
         next.add(start);
         e_closure(next);
@@ -110,18 +124,30 @@ public class Re {
             inputStr.append(ch);
         }
 
-        System.out.println("The Nfa Machine can recognize string: " + inputStr);
+//        System.out.println("The Nfa Machine can recognize string: " + inputStr);
         return inputStr.toString();
     }
 
+
     String matchAll(String str) {
         for (int i = 0; i < str.length(); i++) {
-            String res = match(str.substring(i, str.length()));
+            String res = match0(str.substring(i, str.length()));
             if (!"".equals(res)) {
                 return res;
             }
         }
         return "";
+    }
+
+    String matchAll0(String str) {
+        StringBuilder match = new StringBuilder();
+        for (int i = 0; i < str.length(); i++) {
+            String res = match0(str.substring(i, str.length()));
+            if (!"".equals(res)) {
+                match.append(res);
+            }
+        }
+        return match.toString();
     }
 
     String sub(String from, String to) {

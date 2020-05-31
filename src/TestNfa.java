@@ -1,3 +1,4 @@
+import com.sun.org.apache.regexp.internal.RE;
 import org.junit.Test;
 
 public class TestNfa {
@@ -161,4 +162,60 @@ public class TestNfa {
         String s = re1.matchAll("feijiqq653574281@qq.com12413241");
         assert "653574281@qq.com".equals(s);
     }
+
+    /**
+     * no match test
+     */
+    @Test
+    public void test_no_match() {
+        Re re = new Re("[^5-9]*");
+        String s = re.match("999");
+        assert "".equals(s);
+    }
+
+    /**
+     * Add negative test , wrong regular expression
+     */
+    @Test
+    public void test_worry_expression() {
+        Re re1 = new Re("]6");
+        Re re2 = new Re("*55");
+        Re re3 = new Re("+[5-7]");
+        Re re4 = new Re("?[5-7]");
+        Re re5 = new Re("$5");
+        Re re6 = new Re("2^");
+    }
+
+    /**
+     * test with begin and end lines
+     */
+    @Test
+    public void testBeginAndEnd() {
+        Re re1 = new Re("(^[a-z]+)([0-9]+)([A-Z]+$)");
+        Re re2 = new Re("([a-z]+)([0-9]+)([A-Z]+)");
+
+        String match1 = re1.match("a1234A");
+        String match2 = re2.match("a1234A");
+        assert "a1234A".equals(match1);
+        assert "a1234A".equals(match2);
+        String match3 = re1.match("ABCa1234A");
+        String match4 = re2.match("ABCa1234A");
+        System.out.println(match3);
+        assert "a1234A".equals(match3);
+        assert "".equals(match4);
+
+
+
+    }
+
+    /**
+     * add test with multiple matches
+     */
+    @Test
+    public void testMultipleMatch() {
+        Re re = new Re("2");
+        String s = re.matchAll0("2j2j2j2j2j");
+        assert "22222".equals(s);
+    }
+
 }

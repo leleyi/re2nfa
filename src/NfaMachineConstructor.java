@@ -5,9 +5,12 @@ public class NfaMachineConstructor {
      * nfa start and end;
      */
     public static class NfaPair {
+        int start = 0;
         public Nfa startNode;
         public Nfa endNode;
     }
+
+    private int start = 0;
 
     private Lexer lexer;
 
@@ -59,6 +62,9 @@ public class NfaMachineConstructor {
          * complie-> factor complie
          */
         // if it can be cat
+        if (lexer.getLexeme() == '^') {
+            pairOut.start = 1;
+        }
 
         boolean b = constructNfaABSingleCharacter(pairOut);
 
@@ -67,6 +73,9 @@ public class NfaMachineConstructor {
         }
 
         char c = (char) lexer.getLexeme();
+        if (c == '$') {
+            lexer.advance();
+        }
 
         while (first_in_cat(lexer.getCurrentToken())) {
             NfaPair pairLocal = new NfaPair();
@@ -77,7 +86,6 @@ public class NfaMachineConstructor {
             pairOut.endNode = pairLocal.endNode;
         }
         constructNfaAESingleCharacter(pairOut);
-
     }
 
     private boolean first_in_cat(Lexer.Token tok) throws Exception {
