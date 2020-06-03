@@ -33,6 +33,7 @@ public class ErrorHandler {
     };
 
     public static void parseErr(Error type) throws Exception {
+//        System.out.println(errMsgs[type.ordinal()]);
         throw new Exception(errMsgs[type.ordinal()]);
     }
 }

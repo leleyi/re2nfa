@@ -1,8 +1,5 @@
 import java.sql.PreparedStatement;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
-import java.util.Stack;
+import java.util.*;
 
 
 public class Re {
@@ -12,14 +9,15 @@ public class Re {
     private NfaMachineConstructor constructor;
     private NfaMachineConstructor.NfaPair pair = new NfaMachineConstructor.NfaPair();
 
-    Re(String regluar) {
+    Re(String regluar) throws Exception {
         lexer = new Lexer(regluar);
         start = new Nfa();
         try {
             constructor = new NfaMachineConstructor(lexer);
             constructor.complie(pair);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw e;
+//            e.printStackTrace();
         }
         start = pair.startNode;
         if (pair.start == 1) {
@@ -148,6 +146,18 @@ public class Re {
             }
         }
         return match.toString();
+    }
+
+    String[] matchAll1(String str) {
+        List<String> match = new ArrayList<String>();
+        int k = 0;
+        for (int i = 0; i < str.length(); i++) {
+            String res = match0(str.substring(i, str.length()));
+            if (!"".equals(res)) {
+                match.add(res);
+            }
+        }
+        return match.toArray(new String[match.size()]);
     }
 
     String sub(String from, String to) {

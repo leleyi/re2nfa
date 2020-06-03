@@ -1,6 +1,8 @@
 import com.sun.org.apache.regexp.internal.RE;
 import org.junit.Test;
 
+import java.util.Arrays;
+
 public class TestNfa {
 
     /**
@@ -167,7 +169,7 @@ public class TestNfa {
      * no match test
      */
     @Test
-    public void test_no_match() {
+    public void test_no_match() throws Exception {
         Re re = new Re("[^5-9]*");
         String s = re.match("999");
         assert "".equals(s);
@@ -178,19 +180,38 @@ public class TestNfa {
      */
     @Test
     public void test_worry_expression() {
-        Re re1 = new Re("]6");
-        Re re2 = new Re("*55");
-        Re re3 = new Re("+[5-7]");
-        Re re4 = new Re("?[5-7]");
-        Re re5 = new Re("$5");
-        Re re6 = new Re("2^");
+        try {
+            Re re1 = new Re("]6");
+        } catch (Exception e) {
+            assert "Missing [ in character class".equals(e.getMessage());
+        }
+        try {
+            Re re2 = new Re("*55");
+        } catch (Exception e) {
+            assert "+ ? or * must follow an expression or subexpression".equals(e.getMessage());
+        }
+        try {
+            Re re3 = new Re("+[5-7]");
+        } catch (Exception e) {
+            assert "+ ? or * must follow an expression or subexpression".equals(e.getMessage());
+        }
+        try {
+            Re re4 = new Re("?[5-7]");
+        } catch (Exception e) {
+            assert "+ ? or * must follow an expression or subexpression".equals(e.getMessage());
+        }
+        try {
+            Re re5 = new Re("2^");
+        } catch (Exception e) {
+            assert "^ must be at the start of expression or after [".equals(e.getMessage());
+        }
     }
 
     /**
      * test with begin and end lines
      */
     @Test
-    public void testBeginAndEnd() {
+    public void testBeginAndEnd() throws Exception {
         Re re1 = new Re("(^[a-z]+)([0-9]+)([A-Z]+$)");
         Re re2 = new Re("([a-z]+)([0-9]+)([A-Z]+)");
 
@@ -205,17 +226,20 @@ public class TestNfa {
         assert "".equals(match4);
 
 
-
     }
 
     /**
      * add test with multiple matches
      */
     @Test
-    public void testMultipleMatch() {
+    public void testMultipleMatch() throws Exception {
         Re re = new Re("2");
+        String match = re.match("2j2j2j2j2j");
+        assert "2".equals(match);
         String s = re.matchAll0("2j2j2j2j2j");
         assert "22222".equals(s);
+        String[] strings = re.matchAll1("2j2j2j2j2j");
+        assert Arrays.equals(strings, new String[]{"2", "2", "2", "2", "2"});
     }
 
 }
